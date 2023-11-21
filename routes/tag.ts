@@ -8,7 +8,7 @@ import { TagModel, TagType } from "../models/Tag";
 const router = Router();
 
 /**
- * @desc 1. CRUD scope for tags
+ * @desc 1. Read Only scope for tags
  */
 
 router.get("/:id", async (req, res) => {
@@ -31,16 +31,16 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.delete("/:label", async (req, res) => {
-  try {
-    await TagModel.findOneAndDelete({
-      label: req.params.label,
-    });
+// router.delete("/:label", async (req, res) => {
+//   try {
+//     await TagModel.findOneAndDelete({
+//       label: req.params.label,
+//     });
 
-    res.sendStatus(200);
-  } catch (error) {
-    res.sendStatus(500);
-  }
-});
+//     res.sendStatus(200);
+//   } catch (error) {
+//     res.sendStatus(500);
+//   }
+// });
 
 export default router;

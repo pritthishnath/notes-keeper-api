@@ -8,7 +8,7 @@ router.get("/:permalink", async (req, res) => {
   try {
     const foundNote = await NoteModel.findOne({
       permalink: permalink,
-    }).select("-_id");
+    }).select("-_id id");
 
     if (!foundNote) return res.sendStatus(404);
 
