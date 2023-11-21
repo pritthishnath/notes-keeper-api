@@ -1,13 +1,10 @@
 import { Schema, Types, model } from "mongoose";
 
-const TagSchema = new Schema(
-  {
-    id: String,
-    label: String,
-    synced: Boolean,
-  }
-  // { _id: false }
-);
+const TagSchema = new Schema({
+  id: String,
+  label: String,
+  synced: Boolean,
+});
 
 export type TagType = {
   _id?: string;
