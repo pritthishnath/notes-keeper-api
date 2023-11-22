@@ -8,9 +8,13 @@ router.get("/:permalink", async (req, res) => {
   try {
     const foundNote = await NoteModel.findOne({
       permalink: permalink,
-    }).select("-_id id");
+    })
+      .populate("tags")
+      .select("-_id -id");
 
     if (!foundNote) return res.sendStatus(404);
+
+    console.log(foundNote);
 
     res.json(foundNote);
   } catch (error) {

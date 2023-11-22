@@ -149,7 +149,7 @@ router.delete("/:id", async (req, res) => {
 
 router.put("/:id/share", async (req, res) => {
   const userId = req.query.userId;
-  const newPermalink = randomString(10);
+  const newPermalink = randomString(11);
 
   try {
     const foundNote = await NoteModel.findOne({

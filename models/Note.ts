@@ -6,18 +6,19 @@ const NoteSchema = new Schema(
     title: String,
     markdown: String,
     permalink: String,
-    tagIds: [
-      {
-        type: String,
-        ref: "tag",
-      },
-    ],
+    tagIds: [String],
     synced: Boolean,
     id: String,
     createdBy: { type: Types.ObjectId, ref: "user" },
   },
-  { timestamps: true }
+  { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
+
+NoteSchema.virtual("tags", {
+  ref: "tag",
+  localField: "tagIds",
+  foreignField: "id",
+});
 
 export type NoteType = {
   _id?: string;
