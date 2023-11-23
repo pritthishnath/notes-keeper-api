@@ -14,8 +14,6 @@ router.get("/:permalink", async (req, res) => {
 
     if (!foundNote) return res.sendStatus(404);
 
-    console.log(foundNote);
-
     res.json(foundNote);
   } catch (error) {
     res.sendStatus(500);

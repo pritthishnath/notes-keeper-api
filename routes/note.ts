@@ -13,8 +13,6 @@ const router = Router();
  * @desc 1. CRUD scope for notes
  */
 
-type TagWithNoteIdType = IncomingTagType & { noteId: string };
-
 router.post("/", async (req, res) => {
   const userId = req.query.userId;
   const { notes } = req.body;
@@ -39,7 +37,7 @@ router.post("/", async (req, res) => {
     );
 
     await TagModel.bulkWrite(
-      allTags.map((tag: TagWithNoteIdType) => {
+      allTags.map((tag: IncomingTagType) => {
         return {
           updateOne: {
             filter: { label: tag.label },
@@ -87,14 +85,13 @@ router.get("/", async (req, res) => {
 
 router.post("/:id", async (req, res) => {
   const userId = req.query.userId;
-  const { title, markdown, tagIds, tags, noteIds } = req.body;
+  const { title, markdown, tagIds, tags } = req.body;
 
   const newNoteData = {
     title,
     markdown,
     tagIds,
     synced: true,
-    noteIds,
   };
   try {
     const foundNote = await NoteModel.findOneAndUpdate(
