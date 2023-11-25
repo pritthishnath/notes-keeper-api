@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
+import { jsonError } from "../utils";
 
 type TokenDataType = {
   userId: string;
@@ -9,7 +10,7 @@ type TokenDataType = {
 export function verifyUser(req: Request, res: Response, next: NextFunction) {
   const token = req.headers["authorization-token"] as string;
   if (!token || token === "undefined")
-    return res.status(403).json({ error: true, message: "Forbidden access!" });
+    return jsonError(res, 403, "Please login and try again");
 
   try {
     const payload = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
@@ -18,8 +19,6 @@ export function verifyUser(req: Request, res: Response, next: NextFunction) {
       next();
     }
   } catch (error) {
-    return res
-      .status(401)
-      .json({ error: true, message: "Unauthorized access!" });
+    return jsonError(res, 401, "Unauthorized, try again");
   }
 }

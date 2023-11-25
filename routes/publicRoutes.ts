@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { NoteModel } from "../models/Note";
+import { jsonError } from "../utils";
 
 const router = Router();
 
@@ -12,7 +13,7 @@ router.get("/:permalink", async (req, res) => {
       .populate("tags")
       .select("-_id -id");
 
-    if (!foundNote) return res.sendStatus(404);
+    if (!foundNote) return jsonError(res, 404, "Note not found");
 
     res.json(foundNote);
   } catch (error) {

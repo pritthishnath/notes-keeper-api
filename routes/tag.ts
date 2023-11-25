@@ -3,7 +3,8 @@
  */
 
 import { Router } from "express";
-import { TagModel, TagType } from "../models/Tag";
+import { TagModel } from "../models/Tag";
+import { jsonError } from "../utils";
 
 const router = Router();
 
@@ -13,11 +14,11 @@ const router = Router();
 
 router.get("/:id", async (req, res) => {
   try {
-    const tag = await TagModel.findOne({ _id: req.params.id });
+    const tag = await TagModel.findOne({ id: req.params.id });
 
     res.json(tag);
   } catch (error) {
-    res.sendStatus(500);
+    return jsonError(res, 500);
   }
 });
 
@@ -27,7 +28,7 @@ router.get("/", async (req, res) => {
 
     res.json(tags);
   } catch (error) {
-    res.sendStatus(500);
+    return jsonError(res, 500);
   }
 });
 
@@ -39,7 +40,7 @@ router.get("/", async (req, res) => {
 
 //     res.sendStatus(200);
 //   } catch (error) {
-//     res.sendStatus(500);
+//     return jsonError(res, 500);
 //   }
 // });
 

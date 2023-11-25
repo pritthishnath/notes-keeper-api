@@ -4,7 +4,7 @@
 
 import { Router } from "express";
 import { IncomingNoteType, NoteModel } from "../models/Note";
-import { randomString } from "../utils/stringUtility";
+import { jsonError, randomString } from "../utils";
 import { IncomingTagType, TagModel } from "../models/Tag";
 
 const router = Router();
@@ -52,8 +52,7 @@ router.post("/", async (req, res) => {
 
     res.sendStatus(200);
   } catch (error) {
-    console.log(error);
-    res.sendStatus(500);
+    return jsonError(res, 500);
   }
 });
 
@@ -65,11 +64,11 @@ router.get("/:id", async (req, res) => {
       createdBy: userId,
     });
 
-    if (!note) return res.sendStatus(404);
+    if (!note) return jsonError(res, 404, "Note not found");
 
     res.json(note);
   } catch (error) {
-    res.sendStatus(500);
+    return jsonError(res, 500);
   }
 });
 
@@ -79,7 +78,7 @@ router.get("/", async (req, res) => {
 
     res.json(notes);
   } catch (error) {
-    res.sendStatus(500);
+    return jsonError(res, 500);
   }
 });
 
@@ -120,7 +119,7 @@ router.post("/:id", async (req, res) => {
     return res.json(foundNote);
   } catch (error) {
     console.log(error);
-    res.sendStatus(500);
+    return jsonError(res, 500);
   }
 });
 
@@ -136,7 +135,7 @@ router.delete("/:id", async (req, res) => {
 
     res.sendStatus(200);
   } catch (error) {
-    res.sendStatus(500);
+    return jsonError(res, 500);
   }
 });
 
@@ -154,9 +153,7 @@ router.put("/:id/share", async (req, res) => {
       createdBy: userId,
     });
 
-    if (!foundNote) {
-      return res.sendStatus(404);
-    }
+    if (!foundNote) return jsonError(res, 404, "Note not found");
 
     if (foundNote.permalink && foundNote.permalink.length > 0) {
       return res.json({ permalink: foundNote.permalink });
@@ -168,7 +165,7 @@ router.put("/:id/share", async (req, res) => {
       });
     }
   } catch (error) {
-    res.sendStatus(500);
+    return jsonError(res, 500);
   }
 });
 
@@ -186,7 +183,7 @@ router.delete("/:id/share", async (req, res) => {
 
     res.sendStatus(200);
   } catch (error) {
-    res.sendStatus(500);
+    return jsonError(res, 500);
   }
 });
 

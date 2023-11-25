@@ -12,10 +12,6 @@ export type TagType = {
   synced: boolean;
 };
 
-export type IncomingTagType = {
-  id: string;
-  label: string;
-  synced: boolean;
-};
+export type IncomingTagType = TagType;
 
 export const TagModel = model<TagType>("tag", TagSchema);
