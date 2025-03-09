@@ -8,7 +8,7 @@ type TokenDataType = {
 };
 
 export function verifyUser(req: Request, res: Response, next: NextFunction) {
-  const token = req.headers["authorization-token"] as string;
+  const token = req.headers["x-authorization-token"] as string;
   if (!token || token === "undefined")
     return jsonError(res, 403, "Please login and try again");
 
